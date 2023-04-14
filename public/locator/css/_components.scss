@@ -1,0 +1,36 @@
+.dc-sl-search-on-drag-loading-icon {
+    position: relative;
+    left: -9999px;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #000000;
+    box-shadow: 9999px 0 0 -5px #000000;
+    animation: dotPulse 1.5s infinite linear;
+    animation-delay: .25s;
+
+    &:before, &:after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        width: 5px;
+        height: 5px;
+        border-radius: 5px;
+        background-color: #000000;
+        color: #000000;
+    }
+
+    &:before {
+        box-shadow: 9984px 0 0 -5px #000000;
+        animation: dotPulseBefore 1.5s infinite linear;
+        animation-delay: 0s;
+    }
+
+    &:after {
+        box-shadow: 10014px 0 0 -5px #000000;
+        animation: dotPulseAfter 1.5s infinite linear;
+        animation-delay: .5s;
+    }
+}

@@ -1,0 +1,78 @@
+$bottomBarHeight: 80px;
+:root {
+    /**
+     * Text sizing
+     */
+    --dc-text-sm: 1rem;
+    --dc-text-md: 1.25rem;
+    --dc-text-lg: 1.5rem;
+    --dc-text-xl: 1.75rem;
+    --dc-text-xxl: 2rem;
+    /**
+     * Font weight
+     */
+    --dc-font-weight-thin: 100;
+    --dc-font-weight-medium: 500;
+    --dc-font-weight-bold: 700;
+    --dc-font-weight-black: 900;
+    /**
+     * App sizing
+     */
+    --dc-sizes-1: 0.25rem;
+    --dc-sizes-2: 0.5rem;
+    --dc-sizes-3: 0.75rem;
+    --dc-sizes-4: 1rem;
+    --dc-sizes-5: 1.25rem;
+    --dc-sizes-6: 1.5rem;
+    --dc-sizes-7: 1.75rem;
+    --dc-sizes-8: 2rem;
+    --dc-sizes-9: 2.25rem;
+    --dc-sizes-10: 2.5rem;
+    --dc-sizes-12: 3rem;
+    --dc-sizes-14: 3.5rem;
+    --dc-sizes-16: 4rem;
+    --dc-sizes-20: 5rem;
+    --dc-sizes-24: 6rem;
+    --dc-sizes-28: 7rem;
+    --dc-sizes-32: 8rem;
+    --dc-sizes-36: 9rem;
+    --dc-sizes-40: 10rem;
+    --dc-sizes-44: 11rem;
+    --dc-sizes-48: 12rem;
+    --dc-sizes-52: 13rem;
+    --dc-sizes-56: 14rem;
+    --dc-sizes-60: 15rem;
+    --dc-sizes-64: 16rem;
+    --dc-sizes-72: 18rem;
+    --dc-sizes-80: 20rem;
+    --dc-sizes-96: 24rem;
+    /**
+     * Box shadow
+     */
+    --dc-shadows-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    --dc-shadows-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --dc-shadows-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --dc-shadows-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --dc-shadows-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /**
+     * Color
+     */
+    --dc-primary-color: #000000;
+    --dc-secondary-color: #a0aec0;
+    --dc-main-background-color: #ffffff;
+    --dc-button-primary-text-color: #000000;
+    --dc-button-secondary-text-color: #000000;
+    --dc-button-primary-background-color: #ffffff;
+    --dc-button-secondary-background-color: #ffffff;
+
+    --dc-button-outline-color: #000000;
+    --dc-button-outline-background-color: #ffffff;
+
+    /**
+     * Error/Warning/Info
+     */
+    --dc-error-color: #f5365c;
+    --dc-warning-color: #fb6340;
+    --dc-info-color: #11cdef;
+    --dc-success-color: #2dce89;
+}

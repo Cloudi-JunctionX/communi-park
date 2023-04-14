@@ -1,0 +1,65 @@
+$mobile-width: 768px;
+$tablet-width: 1024px;
+@mixin mobile {
+    @media (max-width: $mobile-width) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media only screen and (min-width: calc(#{$mobile-width} + 1px)) and (max-width: #{$tablet-width}) {
+        @content;
+    }
+}
+
+@mixin map-control {
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: #0000001f 0 6px 16px;
+    cursor: pointer;
+    display: inline-flex;
+    border: 2px solid transparent;
+    padding: 10px;
+    outline: none;
+    color: rgb(34, 34, 34);
+    background-color: #fff;
+}
+
+@keyframes dotPulseBefore {
+    0% {
+        box-shadow: 9984px 0 0 -5px #000000;
+    }
+    30% {
+        box-shadow: 9984px 0 0 2px #000000;
+    }
+    60%,
+    100% {
+        box-shadow: 9984px 0 0 -5px #000000;
+    }
+}
+
+@keyframes dotPulse {
+    0% {
+        box-shadow: 9999px 0 0 -5px #000000;
+    }
+    30% {
+        box-shadow: 9999px 0 0 2px #000000;
+    }
+    60%,
+    100% {
+        box-shadow: 9999px 0 0 -5px #000000;
+    }
+}
+
+@keyframes dotPulseAfter {
+    0% {
+        box-shadow: 10014px 0 0 -5px #000000;
+    }
+    30% {
+        box-shadow: 10014px 0 0 2px #000000;
+    }
+    60%,
+    100% {
+        box-shadow: 10014px 0 0 -5px #000000;
+    }
+}
