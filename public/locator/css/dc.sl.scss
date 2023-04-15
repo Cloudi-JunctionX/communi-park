@@ -2,7 +2,17 @@
 @import "components";
 @import "mixin";
 
+
+.dc-sl-text-danger {
+    color: #fb7586;
+}
+
+.dc-sl-text-success {
+    color: #2dce89;
+}
+
 .dc-sl-container {
+    padding: 20px 40px;
 
     .dc-sl-hidden {
         display: none;
@@ -19,6 +29,7 @@
         margin-bottom: var(--dc-sizes-4);
 
         .dc-sl-title {
+            font-size: 25px;
             @include mobile {
                 display: none;
             }
@@ -327,6 +338,10 @@
         .dc-sl-location-name {
             font-weight: bold;
         }
+
+        .dc-sl-location-schedule {
+            margin-top: 10px;
+        }
     }
 
     .dc-sl-location-info a {
@@ -484,6 +499,29 @@
 
         .dc-sl-location-map-info-container a {
             text-decoration: none
+        }
+
+        .dc-sl-direction {
+            margin-top: 5px;
+            display: block;
+            font-size: 16px;
+        }
+
+        .dc-sl-booking-button {
+            width: 100%;
+            padding: 10px 20px;
+            margin: 10px auto;
+            border-top: 1px solid #ccc;
+            border-right: 0;
+            border-left: 0;
+            border-bottom: 0;
+            cursor: pointer;
+            background-color: #84c6ff;
+
+            &:disabled {
+                cursor: not-allowed;
+                background-color: #efefef;
+            }
         }
     }
 }

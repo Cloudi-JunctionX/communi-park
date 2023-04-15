@@ -13,11 +13,12 @@ class DcStoreLocator {
         this.mapCluster = null
         this.zoomingInToMarker = false
         this.locationListContainer = null
+        this.detailLocationModal = null
+        this.socket = null
         this.settings = {
             app: {
                 api_key: 'AIzaSyA-zwAOJrXDqDN1sVy_9ieWTHYAkvkzNGA',
-                location_url: 'https://cdn.shopify.com/s/files/1/0605/9632/2525/t/11/assets/dc-store-locator.js?v=1650452181',
-
+                location_url: '/locator/js/locations.js',
             },
             customize: {
                 "text": {"show_map_text_button": "Show Map", "show_list_text_button": "Show List"},
@@ -25,13 +26,13 @@ class DcStoreLocator {
                     "map_center_coordinates": {"lat": 21.021424559392315, "lng": 105.79727663760241},
                     "zoom": 15,
                     "max_first_load": 1100000,
-                    "enable_clustering": true
+                    "enable_clustering": false
                 },
                 "list_and_map": {
                     "list_display_fields": ["id", "shop_id", "name", "priority", "description", "phone_number", "fax", "website", "website_display", "open_hour", "close_hour", "address1", "address2", "country", "state", "city", "zipcode", "latitude", "longitude", "medias", "status", "schedule", "email", "created_at", "updated_at"],
                     "map_display_fields": ["id", "shop_id", "name", "priority", "description", "phone_number", "fax", "website", "website_display", "open_hour", "close_hour", "address1", "address2", "country", "state", "city", "zipcode", "latitude", "longitude", "medias", "status", "schedule", "email", "created_at", "updated_at"],
-                    "list_location_fields_sort": ["id", "shop_id", "name", "priority", "description", "phone_number", "fax", "website", "website_display", "open_hour", "close_hour", "address1", "address2", "country", "state", "city", "zipcode", "latitude", "longitude", "medias", "status", "schedule", "email", "created_at", "updated_at"],
-                    "map_location_fields_sort": ["id", "shop_id", "name", "priority", "description", "phone_number", "fax", "website", "website_display", "open_hour", "close_hour", "address1", "address2", "country", "state", "city", "zipcode", "latitude", "longitude", "medias", "status", "schedule", "email", "created_at", "updated_at"]
+                    "list_location_fields_sort": ["id", "shop_id", "name", "priority", "description", "phone_number", "fax", "website", "website_display", "open_hour", "close_hour", "address1", "address2", "country", "state", "city", "zipcode", "latitude", "longitude", "medias", "status", "email", "created_at", "updated_at", "schedule"],
+                    "map_location_fields_sort": ["id", "shop_id", "name", "priority", "description", "phone_number", "fax", "website", "website_display", "open_hour", "close_hour", "address1", "address2", "country", "state", "city", "zipcode", "latitude", "longitude", "medias", "status", "email", "created_at", "updated_at", "schedule"]
                 }
             }
         }
@@ -99,6 +100,8 @@ class DcStoreLocator {
             `https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js`
         )
         document.querySelector('body').appendChild(script)
+        const detailModal = document.getElementById('booking-modal')
+        this.detailLocationModal = new bootstrap.Modal(detailModal)
     }
 
     appendGoogleMapApi() {
@@ -126,6 +129,24 @@ class DcStoreLocator {
                 streetViewControl: false,
                 fullscreenControl: false,
                 clickableIcons: false,
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "landscape",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    }
+                ]
             }
         )
         this.processApp()
@@ -380,9 +401,20 @@ class DcStoreLocator {
         element.addEventListener('click', function () {
             const location = dcStoreLocator.getLocationMarkerById(locationId)
             if (location) {
+                dcStoreLocator.zoomingInToMarker = true;
                 dcStoreLocator.clearSelectedLocation()
                 this.classList.add('dc-sl-location-selected')
+
+                dcStoreLocator.map.setCenter({
+                    lat: parseFloat(location.properties.properties.latitude),
+                    lng: parseFloat(location.properties.properties.longitude)
+                })
+                dcStoreLocator.map.setZoom(16)
                 google.maps.event.trigger(location.marker, 'click')
+
+                dcStoreLocator.delay(() => {
+                    dcStoreLocator.zoomingInToMarker = false;
+                }, 1e3)
             }
         })
     }
@@ -414,7 +446,7 @@ class DcStoreLocator {
                 if (!dcStoreLocator.zoomingInToMarker) {
                     dcStoreLocator.updateLocationAndMarkerState()
                 }
-            }, 800)
+            }, 400)
         )
     }
 
@@ -535,7 +567,57 @@ class DcStoreLocator {
             locationPopup.append(locationImageContainer)
         }
         locationPopup.append(locationInfoContainer)
+        const bookingNowButton = this.renderBookNowButton(locationInfo)
+        const direction = this.renderDirection(locationInfo)
+        locationInfoContainer.append(direction)
+        if (bookingNowButton) {
+            locationInfoContainer.prepend(bookingNowButton)
+        }
         return locationPopup.outerHTML
+    }
+
+    renderBookNowButton(location) {
+        if (!location.properties.close_hour || !location.properties.open_hour) return null
+        const totalSlot = parseInt(location.properties.close_hour)
+        const usedSlot = parseInt(location.properties.open_hour)
+        const remaining = totalSlot - usedSlot
+        const bookButton = this.renderElm('button', 'dc-sl-booking-button', {
+            role: 'button',
+            'onClick': `dcStoreLocator.onBookingClicked(${location.properties.id})`
+        })
+        bookButton.textContent = 'BOOKING NOW !'
+        bookButton.disabled = !remaining
+        return bookButton
+    }
+
+    renderDirection(location) {
+        const link = this.renderElm('a', 'dc-sl-direction', {
+            href: `https://google.com/maps/dir/${location.properties.latitude},${location.properties.longitude}`,
+            target: '_blank'
+        })
+        link.textContent = 'Direction to here ↑'
+        return link
+    }
+
+    onBookingClicked(id) {
+        const location = dcStoreLocator.getLocationMarkerById(id)
+        console.log(location)
+        document.getElementById('booking-title').textContent = location.properties.properties.name
+        const locationInfoContainer = this.renderSortedFieldLocation(
+            location.properties.properties,
+            'map'
+        )
+        document.querySelector('#booking-modal .modal-body').innerHTML = locationInfoContainer.outerHTML
+        this.detailLocationModal.show()
+
+        if (!this.socket) {
+            this.socket = io('http://localhost:3006', {
+                query: {
+                    locationId: id
+                }
+            });
+
+        }
     }
 
     renderSortedFieldLocation(location, type = 'list') {
@@ -867,10 +949,18 @@ class DcStoreLocator {
         if (!open || !display) {
             className.push('dc-sl-hidden')
         }
+
+        const usedSlot = parseInt(open)
+        const totalSlot = parseInt(close)
+        const remaining = totalSlot - usedSlot
         const container = this.renderElm('div', className)
         const prevText =
-            dcStoreLocator.settings.customize.text.schedule || 'Schedule'
-        container.textContent = `${prevText}: ${open} - ${close}`
+            dcStoreLocator.settings.customize.text.schedule || 'Slots'
+
+        container.innerHTML = `${prevText}: ${open} / ${close}
+                <span class="${remaining < 10 ? 'dc-sl-text-danger' : 'dc-sl-text-success'}">
+                    (Remaining: ${remaining} slots)
+                </span>`
         return container
     }
 

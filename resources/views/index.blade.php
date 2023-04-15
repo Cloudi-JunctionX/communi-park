@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
-    <link rel="stylesheet" href="{{ asset('locator/css/dc.sl.min.css') }}">
+    <title>CommuniPark</title>
+    <link rel="stylesheet" href="{{ asset('locator/css/dc.sl.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 <div class="dc-sl-container page-width">
@@ -14,11 +16,6 @@
         </div>
     </header>
     <div class="dc-sl-filter-container">
-        <div class="dc-sl-tags">
-            <button class="dc-sl-tag">Sky view</button>
-            <button class="dc-sl-tag">Free wifi</button>
-            <button class="dc-sl-tag">Beach view</button>
-        </div>
         <div class="dc-sl-search-bar">
             <input type="text" name="dc-sl-search-input" class="dc-sl-search-input"
                    id="dc-sl-search-input"
@@ -67,12 +64,30 @@
         <div class="dc-sl-map-container" id="dc-sl-map-container"></div>
     </div>
 </div>
+<div class="modal fade" id="booking-modal">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="booking-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Book now</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     function dcStoreLocatorGoogleMapCallback() {
         dcStoreLocator.initMap()
     }
 </script>
+<script src="{{ asset('locator/vendors/socket.io/client-dist/socket.io.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('locator/js/dc.sl.js') }}"></script>
-<script src="https://cdn.shopify.com/s/files/1/0605/9632/2525/t/11/assets/dc-store-locator.js?v=1650452181"></script>
 </body>
 </html>
