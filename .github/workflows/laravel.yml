@@ -13,7 +13,8 @@ jobs:
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         with:
-          username: ${SSH_USER_NAME}
-          host: ${SSH_HOST}
-          password:
-          script: 'cd /var/www/communi-park/.github/scripts/ && ./deploy.sh'
+          username: ${{ secrets.SSH_USER_NAME }}
+          host: ${{ secrets.HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: 'cd /var/www/communi-park/.github/scripts/ && ./server_deploy.sh'
