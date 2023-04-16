@@ -17,4 +17,4 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          script: 'cd /var/www/communi-park/.github/scripts/ && ./server_deploy.sh'
+          script: 'cd /var/www/communi-park/.github/scripts/ && ./deploy.sh'
