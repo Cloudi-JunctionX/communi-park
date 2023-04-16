@@ -7,13 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  - deploy:
-      run_on: ubuntu-latest
-      steps:
-        - name: Deploy to production
-          uses: appleboy/ssh-action@master
-          with:
-            username: ${SSH_USER_NAME}
-            host: ${SSH_HOST}
-            password:
-            script: 'cd /var/www/communi-park/.github/scripts/ && ./deploy.sh'
+  deploy:
+    run_on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${SSH_USER_NAME}
+          host: ${SSH_HOST}
+          password:
+          script: 'cd /var/www/communi-park/.github/scripts/ && ./deploy.sh'
