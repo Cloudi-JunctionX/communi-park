@@ -3,11 +3,6 @@ set -e
 
 echo "Deploying application ..."
 
-switch_user() {
-    # shellcheck disable=SC2117
-    su deploy
-}
-
 remove_old_deploy_version() {
     # Remove current version: git_hash/current -> git_hash_current (new)
     echo "Remove old deployed version"
@@ -16,12 +11,12 @@ remove_old_deploy_version() {
 }
 
 deploy() {
+    cd /var/www/communi-park/
+
     # Update codebase
     git fetch origin main
     git reset --hard origin/main
     git pull origin main
-
-    cd /var/www/communi-park/
 
     echo "composer install"
     # Install dependencies based on lock file
@@ -29,21 +24,20 @@ deploy() {
 
     # Migrate database
     php artisan migrate
+}
 
+optimize() {
     # Clear cache
-
     php artisan optimize:clear
 
     # Optimize
     php artisan optimize
-
-
-    # Reload PHP to update opcache
-    echo "" | sudo systemctl restart php8.1-fpm
 }
 
 deploy
 
 remove_old_deploy_version
+
+optimize
 
 echo "Application deployed!"
