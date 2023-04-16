@@ -14,7 +14,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           username: ${{ secrets.SSH_USER_NAME }}
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.SSH_HOST }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: 'cd /var/www/communi-park/.github/scripts/ && ./server_deploy.sh'
