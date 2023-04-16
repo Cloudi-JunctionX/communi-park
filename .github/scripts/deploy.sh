@@ -3,6 +3,11 @@ set -e
 
 echo "Deploying application ..."
 
+switch_user() {
+    # shellcheck disable=SC2117
+    su deploy
+}
+
 remove_old_deploy_version() {
     # Remove current version: git_hash/current -> git_hash_current (new)
     echo "Remove old deployed version"
