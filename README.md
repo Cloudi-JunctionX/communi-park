@@ -1,2 +1,2 @@
 # Communi Parking
-- CI/CD: Github Action
+- CI/CD: Github Actions
