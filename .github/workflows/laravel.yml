@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    run_on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to production
         uses: appleboy/ssh-action@master
