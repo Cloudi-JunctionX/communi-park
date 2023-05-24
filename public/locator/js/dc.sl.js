@@ -17,7 +17,8 @@ class DcStoreLocator {
         this.socket = null
         this.settings = {
             app: {
-                api_key: 'AIzaSyA-zwAOJrXDqDN1sVy_9ieWTHYAkvkzNGA',
+                // api_key: 'AIzaSyA-zwAOJrXDqDN1sVy_9ieWTHYAkvkzNGA',
+                api_key: 'AIzaSyBbuIsXyK7qlI5PsMv2nRYObu1eno846tU',
                 location_url: '/locator/js/locations.js',
             },
             customize: {
